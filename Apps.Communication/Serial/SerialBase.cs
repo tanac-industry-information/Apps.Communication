@@ -8,7 +8,6 @@ using Apps.Communication.BasicFramework;
 using Apps.Communication.Core.Pipe;
 using Apps.Communication.LogNet;
 using Apps.Communication.Reflection;
-using RJCP.IO.Ports;
 
 namespace Apps.Communication.Serial
 {
@@ -210,7 +209,7 @@ namespace Apps.Communication.Serial
 		/// Initialize the serial port information according to the custom initialization method
 		/// </summary>
 		/// <param name="initi">初始化的委托方法</param>
-		public void SerialPortInni(Action<SerialPortStream> initi)
+		public void SerialPortInni(Action<SerialPort> initi)
 		{
 			pipeSerial.SerialPortInni(initi);
 			PortName = pipeSerial.GetPipe().PortName;
@@ -317,7 +316,7 @@ namespace Apps.Communication.Serial
 		/// <param name="hasResponseData">是否等待数据的返回，默认为 <c>True</c></param>
 		/// <param name="usePackAndUnpack">是否需要对命令重新打包，在重写<see cref="M:Communication.Serial.SerialBase.PackCommandWithHeader(System.Byte[])" />方法后才会有影响</param>
 		/// <returns>接收的完整的报文信息</returns>
-		public virtual OperateResult<byte[]> ReadFromCoreServer(SerialPortStream sp, byte[] send, bool hasResponseData = true, bool usePackAndUnpack = true)
+		public virtual OperateResult<byte[]> ReadFromCoreServer(SerialPort sp, byte[] send, bool hasResponseData = true, bool usePackAndUnpack = true)
 		{
 			byte[] array = (usePackAndUnpack ? PackCommandWithHeader(send) : send);
 			LogNet?.WriteDebug(ToString(), StringResources.Language.Send + " : " + (LogMsgFormatBinary ? array.ToHexString(' ') : Encoding.ASCII.GetString(array)));
@@ -360,13 +359,13 @@ namespace Apps.Communication.Serial
 		}
 
 		/// <inheritdoc cref="M:Communication.Core.Net.NetworkDoubleBase.InitializationOnConnect(System.Net.Sockets.Socket)" />
-		protected virtual OperateResult InitializationOnOpen(SerialPortStream sp)
+		protected virtual OperateResult InitializationOnOpen(SerialPort sp)
 		{
 			return OperateResult.CreateSuccessResult();
 		}
 
 		/// <inheritdoc cref="M:Communication.Core.Net.NetworkDoubleBase.ExtraOnDisconnect(System.Net.Sockets.Socket)" />
-		protected virtual OperateResult ExtraOnClose(SerialPortStream sp)
+		protected virtual OperateResult ExtraOnClose(SerialPort sp)
 		{
 			return OperateResult.CreateSuccessResult();
 		}
@@ -378,7 +377,7 @@ namespace Apps.Communication.Serial
 		/// <param name="serialPort">串口对象</param>
 		/// <param name="data">字节数据</param>
 		/// <returns>是否发送成功</returns>
-		protected virtual OperateResult SPSend(SerialPortStream serialPort, byte[] data)
+		protected virtual OperateResult SPSend(SerialPort serialPort, byte[] data)
 		{
 			if (data != null && data.Length != 0)
 			{
@@ -426,7 +425,7 @@ namespace Apps.Communication.Serial
 		/// <param name="serialPort">串口对象</param>
 		/// <param name="awaitData">是否必须要等待数据返回</param>
 		/// <returns>结果数据对象</returns>
-		protected virtual OperateResult<byte[]> SPReceived(SerialPortStream serialPort, bool awaitData)
+		protected virtual OperateResult<byte[]> SPReceived(SerialPort serialPort, bool awaitData)
 		{
 			byte[] array = new byte[1024];
 			MemoryStream memoryStream = new MemoryStream();

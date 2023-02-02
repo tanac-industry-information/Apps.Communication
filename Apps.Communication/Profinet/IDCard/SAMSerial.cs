@@ -5,7 +5,6 @@ using System.Text;
 using Apps.Communication.BasicFramework;
 using Apps.Communication.Reflection;
 using Apps.Communication.Serial;
-using RJCP.IO.Ports;
 
 namespace Apps.Communication.Profinet.IDCard
 {
@@ -28,7 +27,7 @@ namespace Apps.Communication.Profinet.IDCard
 		}
 
 		/// <inheritdoc />
-		protected override OperateResult<byte[]> SPReceived(SerialPortStream serialPort, bool awaitData)
+		protected override OperateResult<byte[]> SPReceived(SerialPort serialPort, bool awaitData)
 		{
 			List<byte> list = new List<byte>();
 			do

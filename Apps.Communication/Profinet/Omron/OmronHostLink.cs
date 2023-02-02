@@ -6,7 +6,7 @@ using Apps.Communication.Core;
 using Apps.Communication.Profinet.Omron.Helper;
 using Apps.Communication.Reflection;
 using Apps.Communication.Serial;
-using RJCP.IO.Ports;
+using System.IO.Ports;
 
 namespace Apps.Communication.Profinet.Omron
 {

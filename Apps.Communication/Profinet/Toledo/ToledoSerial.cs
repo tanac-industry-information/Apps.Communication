@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using Apps.Communication.LogNet;
-using RJCP.IO.Ports;
 
 namespace Apps.Communication.Profinet.Toledo
 {
@@ -19,7 +18,7 @@ namespace Apps.Communication.Profinet.Toledo
 		/// <param name="toledoStandardData">数据对象</param>
 		public delegate void ToledoStandardDataReceivedDelegate(object sender, ToledoStandardData toledoStandardData);
 
-		private SerialPortStream serialPort;
+		private SerialPort serialPort;
 
 		private ILogNet logNet;
 
@@ -74,7 +73,7 @@ namespace Apps.Communication.Profinet.Toledo
 		/// </summary>
 		public ToledoSerial()
 		{
-			serialPort = new SerialPortStream();
+			serialPort = new SerialPort();
 			serialPort.RtsEnable = true;
 			serialPort.DataReceived += SerialPort_DataReceived;
 		}
@@ -158,7 +157,7 @@ namespace Apps.Communication.Profinet.Toledo
 		/// Initialize the serial port information according to the custom initialization method
 		/// </summary>
 		/// <param name="initi">初始化的委托方法</param>
-		public void SerialPortInni(Action<SerialPortStream> initi)
+		public void SerialPortInni(Action<SerialPort> initi)
 		{
 			if (!serialPort.IsOpen)
 			{

@@ -6,7 +6,6 @@ using Apps.Communication.BasicFramework;
 using Apps.Communication.Core;
 using Apps.Communication.Reflection;
 using Apps.Communication.Serial;
-using RJCP.IO.Ports;
 
 namespace Apps.Communication.Profinet.Keyence
 {
@@ -41,7 +40,7 @@ namespace Apps.Communication.Profinet.Keyence
 		}
 
 		/// <inheritdoc />
-		protected override OperateResult InitializationOnOpen(SerialPortStream sp)
+		protected override OperateResult InitializationOnOpen(SerialPort sp)
 		{
 			OperateResult<byte[]> operateResult = ReadFromCoreServer(sp, KeyenceNanoHelper.GetConnectCmd(Station, UseStation));
 			if (!operateResult.IsSuccess)
@@ -56,7 +55,7 @@ namespace Apps.Communication.Profinet.Keyence
 		}
 
 		/// <inheritdoc />
-		protected override OperateResult ExtraOnClose(SerialPortStream sp)
+		protected override OperateResult ExtraOnClose(SerialPort sp)
 		{
 			OperateResult<byte[]> operateResult = ReadFromCoreServer(sp, KeyenceNanoHelper.GetDisConnectCmd(Station, UseStation));
 			if (!operateResult.IsSuccess)

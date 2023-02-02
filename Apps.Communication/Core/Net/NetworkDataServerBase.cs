@@ -10,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Apps.Communication.BasicFramework;
 using Apps.Communication.Reflection;
-using RJCP.IO.Ports;
 
 namespace Apps.Communication.Core.Net
 {
@@ -66,7 +65,7 @@ namespace Apps.Communication.Core.Net
 
 		private Timer timerHeart;
 
-		private SerialPortStream serialPort;
+		private SerialPort serialPort;
 
 		/// <inheritdoc cref="P:Communication.Core.Net.NetworkDoubleBase.ByteTransform" />
 		public IByteTransform ByteTransform { get; set; }
@@ -159,7 +158,7 @@ namespace Apps.Communication.Core.Net
 			lockOnlineClient = new object();
 			listsOnlineClient = new List<AppSession>();
 			timerHeart = new Timer(ThreadTimerHeartCheck, null, 2000, 10000);
-			serialPort = new SerialPortStream();
+			serialPort = new SerialPort();
 		}
 
 		/// <summary>
@@ -451,7 +450,7 @@ namespace Apps.Communication.Core.Net
 		/// <param name="baudRate">波特率</param>
 		public void StartSerialSlave(string com, int baudRate)
 		{
-			StartSerialSlave(delegate(SerialPortStream sp)
+			StartSerialSlave(delegate(SerialPort sp)
 			{
 				sp.PortName = com;
 				sp.BaudRate = baudRate;
@@ -471,7 +470,7 @@ namespace Apps.Communication.Core.Net
 		/// <param name="stopBits">停止位</param>
 		public void StartSerialSlave(string com, int baudRate, int dataBits, Parity parity, StopBits stopBits)
 		{
-			StartSerialSlave(delegate(SerialPortStream sp)
+			StartSerialSlave(delegate(SerialPort sp)
 			{
 				sp.PortName = com;
 				sp.BaudRate = baudRate;
@@ -486,7 +485,7 @@ namespace Apps.Communication.Core.Net
 		/// Start the slave service of serial and initialize the parameters of the serial port using a custom initialization method
 		/// </summary>
 		/// <param name="inni">初始化信息的委托</param>
-		public void StartSerialSlave(Action<SerialPortStream> inni)
+		public void StartSerialSlave(Action<SerialPort> inni)
 		{
 			if (!serialPort.IsOpen)
 			{
@@ -590,7 +589,7 @@ namespace Apps.Communication.Core.Net
 		/// 获取当前的串口对象信息
 		/// </summary>
 		/// <returns>串口对象</returns>
-		protected SerialPortStream GetSerialPort()
+		protected SerialPort GetSerialPort()
 		{
 			return serialPort;
 		}

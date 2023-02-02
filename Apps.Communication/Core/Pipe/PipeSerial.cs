@@ -1,4 +1,3 @@
-using RJCP.IO.Ports;
 using System;
 using System.IO.Ports;
 
@@ -10,7 +9,7 @@ namespace Apps.Communication.Core.Pipe
 	/// </summary>
 	public class PipeSerial : PipeBase, IDisposable
 	{
-		private SerialPortStream serialPort;
+		private SerialPort serialPort;
 
 		/// <summary>
 		/// 获取或设置一个值，该值指示在串行通信中是否启用请求发送 (RTS) 信号。<br />
@@ -33,7 +32,7 @@ namespace Apps.Communication.Core.Pipe
 		/// </summary>
 		public PipeSerial()
 		{
-			serialPort = new SerialPortStream();
+			serialPort = new SerialPort();
 		}
 
 		/// <summary>
@@ -62,7 +61,7 @@ namespace Apps.Communication.Core.Pipe
 		/// Initialize the serial port information according to the custom initialization method
 		/// </summary>
 		/// <param name="initi">初始化的委托方法</param>
-		public void SerialPortInni(Action<SerialPortStream> initi)
+		public void SerialPortInni(Action<SerialPort> initi)
 		{
 			if (!serialPort.IsOpen)
 			{
@@ -105,7 +104,7 @@ namespace Apps.Communication.Core.Pipe
 		/// 关闭当前的串口连接<br />
 		/// Close the current serial connection
 		/// </summary>
-		public OperateResult Close(Func<SerialPortStream, OperateResult> extraOnClose)
+		public OperateResult Close(Func<SerialPort, OperateResult> extraOnClose)
 		{
 			if (serialPort.IsOpen)
 			{
@@ -138,7 +137,7 @@ namespace Apps.Communication.Core.Pipe
 		/// Get current serial port object information
 		/// </summary>
 		/// <returns>串口对象</returns>
-		public SerialPortStream GetPipe()
+		public SerialPort GetPipe()
 		{
 			return serialPort;
 		}

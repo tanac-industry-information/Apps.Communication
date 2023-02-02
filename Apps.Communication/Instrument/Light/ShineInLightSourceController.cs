@@ -1,6 +1,6 @@
 using Apps.Communication.Reflection;
 using Apps.Communication.Serial;
-using RJCP.IO.Ports;
+using System.IO.Ports;
 
 namespace Apps.Communication.Instrument.Light
 {
